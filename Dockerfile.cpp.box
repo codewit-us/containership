@@ -1,5 +1,22 @@
-FROM alpine:3
+FROM debian:stable-slim
 LABEL Author="Kevin Buffardi"
-LABEL version="0.1"
+LABEL version="0.2"
 LABEL name="codewitus-cpp"
 WORKDIR /sandbox
+VOLUME /external
+COPY ./cpp/* .
+
+# Install C++ dependencies
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive \
+    apt-get -qq install \
+    g++ git \
+    python3-minimal python-is-python3
+
+# Set up CxxTest
+RUN git clone --depth=1 --single-branch https://github.com/codewit-us/cxxtest /cxxtest
+RUN mkdir cxxtest && \
+    cp -r /cxxtest/cxxtest /usr/include
+ENV PATH="${PATH}:/cxxtest/bin"
+
+CMD sh ./cpp-tester.sh
