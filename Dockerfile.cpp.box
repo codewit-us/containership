@@ -1,10 +1,9 @@
 FROM debian:stable-slim
 LABEL Author="Kevin Buffardi"
-LABEL version="0.2"
+LABEL version="0.3"
 LABEL name="codewitus-cpp"
 WORKDIR /sandbox
 VOLUME /external
-COPY ./cpp/* .
 
 # Install C++ dependencies
 RUN apt-get update && \
@@ -19,4 +18,9 @@ RUN mkdir cxxtest && \
     cp -r /cxxtest/cxxtest /usr/include
 ENV PATH="${PATH}:/cxxtest/bin"
 
-CMD sh ./cpp-tester.sh
+CMD cxxtestgen --error-printer -o codewit-run.cpp codewit_test.h && \
+    g++ --std=c++20 -o tests codewit-run.cpp && \
+    ./tests
+
+# Example run command:
+# docker run -t -v "$(pwd)/cpp":/sandbox codewitus-cpp
