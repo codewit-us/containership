@@ -1,5 +1,17 @@
 FROM python:3.9-slim
 LABEL Author="Kevin Buffardi"
-LABEL version="0.1"
+LABEL version="0.2"
 LABEL name="codewitus-python"
 WORKDIR /sandbox
+VOLUME /external
+
+# Set up pytest for testing
+RUN pip install pytest
+
+# Remove os library for security purposes
+RUN pip uninstall os.path pathlib shutil
+
+CMD pytest
+
+# Example run command:
+# docker run -t -v "$(pwd)/python":/sandbox codewitus-python
