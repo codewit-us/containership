@@ -15,4 +15,4 @@ CMD javac -cp .:/usr/bin/junit-4.13.2.jar:/usr/bin/hamcrest-core-1.3.jar codewit
     java -cp .:/usr/bin/junit-4.13.2.jar:/usr/bin/hamcrest-core-1.3.jar org.junit.runner.JUnitCore codewit_Test
 
 # Example run:
-# docker run -v "$(pwd)/java":/sandbox -it codewit_java
+# docker run -v "$(pwd)/java":/sandbox -it codewitus_java
